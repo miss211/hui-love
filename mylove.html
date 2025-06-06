@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜数字小游戏</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .instructions {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            font-size: 16px;
+            flex: 1;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        #restartBtn {
+            background-color: #2ecc71;
+            margin-top: 15px;
+            width: 100%;
+        }
+        #restartBtn:hover {
+            background-color: #27ae60;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .guesses {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 40px;
+        }
+        .attempts {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>猜数字小游戏</h1>
+        
+        <div class="instructions">
+            <p>游戏规则：</p>
+            <ol>
+                <li>我已经想好了一个1到100之间的随机数字</li>
+                <li>你有<strong>10次机会</strong>猜出这个数字</li>
+                <li>每次猜测后，我会告诉你猜的数字是<strong>太高</strong>还是<strong>太低</strong></li>
+                <li>猜对了或者用完所有机会游戏结束</li>
+            </ol>
+        </div>
+        
+        <div class="game-area">
+            <div class="input-group">
+                <input type="number" id="guessInput" placeholder="输入1-100之间的数字" min="1" max="100">
+                <button id="guessBtn">猜一下</button>
+            </div>
+            
+            <div class="guesses" id="guessesList">等待你的第一次猜测...</div>
+            <div class="attempts">剩余机会: <span id="attemptsCount">10</span></div>
+            
+            <div class="feedback" id="feedback">
+                输入一个数字开始游戏吧！
+            </div>
+            
+            <button id="restartBtn">重新开始游戏</button>
+        </div>
+    </div>
+
+    <script>
+        // 游戏变量
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
+        let attemptsLeft = 10;
+        let gameEnded = false;
+        let guesses = [];
+        
+        // DOM元素
+        const guessInput = document.getElementById('guessInput');
+        const guessBtn = document.getElementById('guessBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const feedback = document.getElementById('feedback');
+        const attemptsCount = document.getElementById('attemptsCount');
+        const guessesList = document.getElementById('guessesList');
+        
+        // 提交猜测
+        guessBtn.addEventListener('click', checkGuess);
+        
+        // 按Enter键也可以提交
+        guessInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkGuess();
+            }
+        });
+        
+        // 重新开始游戏
+        restartBtn.addEventListener('click', restartGame);
+        
+        function checkGuess() {
+            if (gameEnded) return;
+            
+            const userGuess = parseInt(guessInput.value);
+            
+            // 验证输入
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                feedback.textContent = '请输入1-100之间的有效数字！';
+                feedback.className = 'feedback error';
+                return;
+            }
+            
+            // 记录猜测
+            guesses.push(userGuess);
+            guessesList.textContent = '已猜数字: ' + guesses.join(', ');
+            
+            // 减少尝试次数
+            attemptsLeft--;
+            attemptsCount.textContent = attemptsLeft;
+            
+            // 检查猜测结果
+            if (userGuess === secretNumber) {
+                feedback.innerHTML = `<span class="success">恭喜你！猜对了！数字是 ${secretNumber}。</span>`;
+                feedback.className = 'feedback success';
+                endGame();
+            } else if (attemptsLeft === 0) {
+                feedback.innerHTML = `<span class="error">游戏结束！正确答案是 ${secretNumber}。</span>`;
+                feedback.className = 'feedback error';
+                endGame();
+            } else {
+                if (userGuess < secretNumber) {
+                    feedback.textContent = `太低了！再试一次。`;
+                } else {
+                    feedback.textContent = `太高了！再试一次。`;
+                }
+                feedback.className = 'feedback info';
+            }
+            
+            // 清空输入框并聚焦
+            guessInput.value = '';
+            guessInput.focus();
+        }
+        
+        function endGame() {
+            gameEnded = true;
+            guessInput.disabled = true;
+            guessBtn.disabled = true;
+            restartBtn.style.display = 'block';
+        }
+        
+        function restartGame() {
+            // 重置游戏变量
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attemptsLeft = 10;
+            gameEnded = false;
+            guesses = [];
+            
+            // 重置UI
+            guessInput.disabled = false;
+            guessBtn.disabled = false;
+            feedback.textContent = '游戏已重置！输入新数字开始吧！';
+            feedback.className = 'feedback info';
+            attemptsCount.textContent = attemptsLeft;
+            guessesList.textContent = '等待你的第一次猜测...';
+            guessInput.value = '';
+            guessInput.focus();
+            restartBtn.style.display = 'none';
+            
+            console.log('新游戏开始，神秘数字是:', secretNumber); // 调试用
+        }
+    </script>
+</body>
+</html>
