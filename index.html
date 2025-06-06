@@ -3,666 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOVE Hui❤️ - 情侣专属空间</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Microsoft YaHei', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #ffafbd, #ffc3a0, #fbc2eb, #a6c1ee);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: #5a1a5e;
-            min-height: 100vh;
-        }
-        
-        @keyframes gradientBG {
-            0% { background-position: 0% 50% }
-            50% { background-position: 100% 50% }
-            100% { background-position: 0% 50% }
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* 头部样式 */
-        header {
-            text-align: center;
-            padding: 30px 0;
-            position: relative;
-            margin-bottom: 40px;
-        }
-        
-        .hearts {
-            position: absolute;
-            top: 10px;
-            width: 100%;
-            height: 60px;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .heart {
-            position: absolute;
-            font-size: 24px;
-            color: #ff4e8c;
-            opacity: 0;
-            animation: fallingHearts 8s linear infinite;
-        }
-        
-        @keyframes fallingHearts {
-            0% {
-                transform: translateY(-40px) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(500px) rotate(180deg);
-                opacity: 0;
-            }
-        }
-        
-        .logo {
-            font-size: 48px;
-            margin-bottom: 10px;
-            color: #f92a82;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .slogan {
-            font-size: 20px;
-            color: #862d86;
-            font-style: italic;
-        }
-        
-        /* 导航菜单 */
-        nav {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-        
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            padding: 15px 30px;
-            margin: 0 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            min-width: 180px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .nav-btn i {
-            margin-right: 10px;
-        }
-        
-        /* 主内容区 */
-        .tab-content {
-            display: none;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            min-height: 500px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        
-        .active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* 爱心树页面 */
-        #love-tree {
-            text-align: center;
-        }
-        
-        .tree-container {
-            position: relative;
-            margin: 0 auto;
-            width: 300px;
-            height: 400px;
-            margin-top: 20px;
-        }
-        
-        .tree {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 300px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><path fill="%23a56e18" d="M100 0 L200 300 L0 300 Z"/></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: 2;
-        }
-        
-        .heart-wrapper {
-            position: absolute;
-            z-index: 3;
-        }
-        
-        .tree-heart {
-            font-size: 36px;
-            color: #ff4e8c;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .tree-heart:hover {
-            transform: scale(1.2);
-        }
-        
-        .message-form {
-            margin-top: 30px;
-        }
-        
-        textarea {
-            width: 100%;
-            height: 100px;
-            padding: 15px;
-            border: 2px solid #e5bee6;
-            border-radius: 15px;
-            resize: none;
-            font-size: 16px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.7);
-        }
-        
-        button {
-            background: linear-gradient(to right, #ff7eb3, #ff758c);
-            border: none;
-            border-radius: 50px;
-            padding: 12px 30px;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
-        }
-        
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 117, 140, 0.6);
-        }
-        
-        /* 情侣相册 */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .gallery-item {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            height: 200px;
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-        
-        .placeholder {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #f0e6f1;
-            height: 100%;
-            color: #c76ec2;
-            font-size: 18px;
-            text-align: center;
-        }
-        
-        .placeholder i {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-        
-        /* 默契测试 */
-        .question {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f9f0ff;
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .question h3 {
-            margin-bottom: 15px;
-            color: #d157c9;
-        }
-        
-        .options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .option {
-            padding: 15px;
-            background: #fff;
-            border: 2px solid #e9c8f4;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .option:hover {
-            background: #fdeffd;
-            border-color: #d77bd8;
-            transform: translateY(-2px);
-        }
-        
-        .option.selected {
-            background: #ffebf8;
-            border-color: #ff9dc7;
-            box-shadow: 0 4px 8px rgba(255, 157, 199, 0.3);
-        }
-        
-        #result {
-            text-align: center;
-            font-size: 20px;
-            margin: 20px 0;
-            color: #d157c9;
-            font-weight: bold;
-        }
-        
-        /* 纪念日计数器 */
-        .anniversary {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .counter {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        
-        .counter-box {
-            margin: 0 15px;
-            padding: 15px 0;
-            width: 100px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .counter-value {
-            font-size: 40px;
-            font-weight: bold;
-            color: #ff4e8c;
-        }
-        
-        .counter-label {
-            font-size: 14px;
-            color: #b45ab0;
-            margin-top: 5px;
-        }
-        
-        .date-picker {
-            margin: 20px 0;
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: 2px solid #e5bee6;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.7);
-        }
-        
-        /* 页脚样式 */
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #773174;
-            font-size: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .footer-heart {
-            color: #ff4e8c;
-            animation: heartbeat 1s infinite;
-        }
-        
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .nav-btn {
-                padding: 10px 15px;
-                font-size: 14px;
-                min-width: 120px;
-                margin: 5px;
-            }
-            
-            .counter-box {
-                margin: 0 5px;
-                width: 70px;
-            }
-            
-            .counter-value {
-                font-size: 28px;
-            }
-        }
-    </style>
+    <title>我们的爱情空间 | Hui ❤️ LW</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/icons/heart.ico" type="image/x-icon">
 </head>
 <body>
-    <div class="hearts" id="heartsContainer"></div>
-    
-    <div class="container">
-        <header>
-            <h1 class="logo">LOVE Hui❤️</h1>
-            <p class="slogan">属于我们两人的专属空间</p>
-        </header>
-        
-        <nav>
-            <button class="nav-btn" onclick="changeTab('love-tree')">
-                <i class="fas fa-heart"></i> 爱心树
-            </button>
-            <button class="nav-btn" onclick="changeTab('gallery')">
-                <i class="fas fa-images"></i> 情侣相册
-            </button>
-            <button class="nav-btn" onclick="changeTab('quiz')">
-                <i class="fas fa-star"></i> 默契测试
-            </button>
-            <button class="nav-btn" onclick="changeTab('anniversary')">
-                <i class="fas fa-calendar-alt"></i> 纪念日
-            </button>
-        </nav>
-        
-        <div class="tab-content active" id="love-tree">
-            <h2><i class="fas fa-heart"></i> 我们的爱情树</h2>
-            <p>在这里留下爱的留言，让我们的爱情树开满爱心！</p>
+    <!-- 顶部导航 -->
+    <nav class="navbar">
+        <div class="logo">LOVE Hui❤️</div>
+        <div class="nav-links">
+            <button class="nav-btn active" data-page="home">时间胶囊</button>
+            <button class="nav-btn" data-page="memories">回忆相册</button>
+            <button class="nav-btn" data-page="milestones">纪念日</button>
+            <button class="nav-btn" data-page="random">爱情转盘</button>
+        </div>
+    </nav>
+
+    <!-- 主页内容 -->
+    <main class="content">
+        <!-- 首页 - 时间计算器 -->
+        <div id="home" class="page active">
+            <div class="header">
+                <h1>我们的爱情计时器</h1>
+                <p>始于2021年7月2日，一起走过每一分每一秒</p>
+            </div>
             
-            <div class="tree-container">
-                <div class="tree"></div>
-                <div class="heart-wrapper" style="top: 50px; left: 100px">
-                    <div class="tree-heart" onclick="showMessage('2023-06-14', '第一次见到你，我的心跳漏了一拍 ❤️')">❤️</div>
+            <div class="counter">
+                <div class="time-card">
+                    <div class="time-value" id="years">0</div>
+                    <div class="time-label">年</div>
                 </div>
-                <div class="heart-wrapper" style="top: 100px; left: 30px">
-                    <div class="tree-heart" onclick="showMessage('2023-08-23', '那个夏夜，星空下的告白永远难忘 ✨')">❤️</div>
+                <div class="time-card">
+                    <div class="time-value" id="months">0</div>
+                    <div class="time-label">月</div>
                 </div>
-                <div class="heart-wrapper" style="top: 120px; left: 170px">
-                    <div class="tree-heart" onclick="showMessage('2023-10-01', '旅行途中的美好回忆，有你在的地方就是风景 🗺️')">❤️</div>
+                <div class="time-card">
+                    <div class="time-value" id="weeks">0</div>
+                    <div class="time-label">周</div>
+                </div>
+                <div class="time-card">
+                    <div class="time-value" id="days">0</div>
+                    <div class="time-label">天</div>
+                </div>
+                <div class="time-card">
+                    <div class="time-value" id="hours">0</div>
+                    <div class="time-label">小时</div>
+                </div>
+                <div class="time-card">
+                    <div class="time-value" id="minutes">0</div>
+                    <div class="time-label">分钟</div>
                 </div>
             </div>
             
-            <div class="message-form">
-                <h3>留下爱的足迹：</h3>
-                <textarea id="new-message" placeholder="写下你对心爱的TA说的话..."></textarea>
-                <button onclick="addNewHeart()"><i class="fas fa-plus"></i> 挂在树上</button>
+            <div class="love-message">
+                <div class="heart-pulse">❤️</div>
+                <p id="love-quote">每一秒都更爱你</p>
             </div>
         </div>
         
-        <div class="tab-content" id="gallery">
-            <h2><i class="fas fa-images"></i> 我们的甜蜜记忆</h2>
-            <p>上传珍藏的照片，记录美好时光</p>
-            
-            <div class="gallery">
-                <div class="gallery-item">
-                    <div class="placeholder">
-                        <i class="fas fa-plus-circle"></i>
-                        <p>上传照片</p>
+        <!-- 回忆相册页面 -->
+        <div id="memories" class="page">
+            <h2>我们的甜蜜记忆</h2>
+            <div class="memory-grid">
+                <!-- 记忆卡片 - 可以通过JavaScript动态添加 -->
+                <div class="memory-card" data-id="1">
+                    <div class="memory-image">📸</div>
+                    <div class="memory-content">
+                        <div class="memory-title">初次相遇</div>
+                        <div class="memory-date">2021.07.02</div>
                     </div>
                 </div>
-                <div class="gallery-item">
-                    <div class="placeholder">
-                        <i class="fas fa-plus-circle"></i>
-                        <p>上传照片</p>
+                <div class="memory-card" data-id="2">
+                    <div class="memory-image">🏖️</div>
+                    <div class="memory-content">
+                        <div class="memory-title">海边日落</div>
+                        <div class="memory-date">2022.05.15</div>
                     </div>
                 </div>
-                <div class="gallery-item">
-                    <div class="placeholder">
-                        <i class="fas fa-plus-circle"></i>
-                        <p>上传照片</p>
-                    </div>
+                <!-- 更多记忆卡片 -->
+            </div>
+        </div>
+        
+        <!-- 纪念日页面 -->
+        <div id="milestones" class="page">
+            <h2>爱情里程碑</h2>
+            <div class="milestones-container">
+                <div class="add-milestone-form">
+                    <input type="text" id="milestone-title" placeholder="纪念日名称">
+                    <input type="date" id="milestone-date">
+                    <button id="add-milestone-btn">添加纪念日</button>
+                </div>
+                <div class="milestones-list">
+                    <!-- 纪念日卡片 - 可以通过JavaScript动态添加 -->
                 </div>
             </div>
         </div>
         
-        <div class="tab-content" id="quiz">
-            <h2><i class="fas fa-star"></i> 情侣默契大考验</h2>
-            <p>测试你们有多了解彼此！</p>
-            
-            <div class="question">
-                <h3>1. TA最喜欢的电影类型是？</h3>
-                <div class="options">
-                    <div class="option" onclick="selectOption(this, 1)">爱情片</div>
-                    <div class="option" onclick="selectOption(this, 1)">科幻片</div>
-                    <div class="option" onclick="selectOption(this, 1)">悬疑片</div>
-                    <div class="option" onclick="selectOption(this, 1)">纪录片</div>
-                </div>
+        <!-- 随机事件转盘 -->
+        <div id="random" class="page">
+            <div class="wheel-container">
+                <div class="wheel"></div>
+                <div class="wheel-pointer">⬇️</div>
+            </div>
+            <div class="wheel-controls">
+                <button id="spin-btn">旋转转盘</button>
+                <div class="result" id="result">点击旋转，选择甜蜜惊喜！</div>
             </div>
             
-            <div class="question">
-                <h3>2. TA最喜欢的早餐是什么？</h3>
-                <div class="options">
-                    <div class="option" onclick="selectOption(this, 2)">西式早餐</div>
-                    <div class="option" onclick="selectOption(this, 2)">中式早餐</div>
-                    <div class="option" onclick="selectOption(this, 2)">不吃早餐</div>
-                    <div class="option" onclick="selectOption(this, 2)">简单咖啡</div>
+            <div class="event-controls">
+                <h3>管理爱情活动</h3>
+                <div class="add-event-form">
+                    <input type="text" id="event-name" placeholder="活动名称">
+                    <select id="event-category">
+                        <option value="浪漫">浪漫</option>
+                        <option value="冒险">冒险</option>
+                        <option value="手工">手工</option>
+                        <option value="游戏">游戏</option>
+                        <option value="健康">健康</option>
+                    </select>
+                    <button id="add-event-btn">添加活动</button>
                 </div>
-            </div>
-            
-            <div class="question">
-                <h3>3. TA平时最喜欢的放松方式是？</h3>
-                <div class="options">
-                    <div class="option" onclick="selectOption(this, 3)">听音乐</div>
-                    <div class="option" onclick="selectOption(this, 3)">玩游戏</div>
-                    <div class="option" onclick="selectOption(this, 3)">看电影</div>
-                    <div class="option" onclick="selectOption(this, 3)">户外散步</div>
-                </div>
-            </div>
-            
-            <button onclick="calculateScore()">完成测试</button>
-            <div id="result"></div>
-        </div>
-        
-        <div class="tab-content" id="anniversary">
-            <h2><i class="fas fa-calendar-alt"></i> 专属纪念日</h2>
-            <p>记录我们爱的里程碑</p>
-            
-            <div class="anniversary">
-                <h3>我们在一起的第 <span class="counter-value" id="days">99</span> 天</h3>
-                <p>纪念日：<input type="date" class="date-picker" id="anniversary-date"></p>
                 
-                <div class="counter">
-                    <div class="counter-box">
-                        <div class="counter-value" id="years">0</div>
-                        <div class="counter-label">年</div>
-                    </div>
-                    <div class="counter-box">
-                        <div class="counter-value" id="months">3</div>
-                        <div class="counter-label">月</div>
-                    </div>
-                    <div class="counter-box">
-                        <div class="counter-value" id="weeks">15</div>
-                        <div class="counter-label">周</div>
-                    </div>
-                    <div class="counter-box">
-                        <div class="counter-value" id="hours">2376</div>
-                        <div class="counter-label">小时</div>
-                    </div>
+                <div class="events-list">
+                    <!-- 活动卡片 - 可以通过JavaScript动态添加 -->
                 </div>
             </div>
         </div>
-    </div>
-    
+    </main>
+
+    <!-- 页脚 -->
     <footer>
-        <p>Made with <span class="footer-heart">❤️</span> for our love | LOVE Hui❤️ 2024</p>
+        <p>Created with ❤️ for Hui & LW | 2024</p>
     </footer>
 
-    <script>
-        // 创建飘落的心形
-        function createHearts() {
-            const container = document.getElementById('heartsContainer');
-            for(let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart';
-                    heart.innerHTML = '❤️';
-                    heart.style.left = `${Math.random() * 100}%`;
-                    heart.style.animationDelay = `${Math.random() * 5}s`;
-                    container.appendChild(heart);
-                    
-                    // 移除旧的心形保持性能
-                    setTimeout(() => {
-                        heart.remove();
-                    }, 10000);
-                }, i * 500);
-            }
-        }
-        
-        // 每10秒创建一次心形
-        setInterval(createHearts, 10000);
-        createHearts();
-        
-        // 切换标签页
-        function changeTab(tabId) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-        }
-        
-        // 显示爱心树留言
-        function showMessage(date, message) {
-            alert(`❤️ ${date}\n\n${message}`);
-        }
-        
-        // 添加新留言
-        function addNewHeart() {
-            const message = document.getElementById('new-message').value;
-            if(message.trim() !== '') {
-                alert('已添加留言到爱情树上！💖');
-                document.getElementById('new-message').value = '';
-            } else {
-                alert('请写下您的留言！');
-            }
-        }
-        
-        // 默契测试功能
-        const selectedAnswers = {};
-        
-        function selectOption(element, questionId) {
-            // 清除该问题的所有选中状态
-            const options = element.parentElement.querySelectorAll('.option');
-            options.forEach(opt => opt.classList.remove('selected'));
-            
-            // 设置当前选项为选中
-            element.classList.add('selected');
-            
-            // 保存答案
-            selectedAnswers[questionId] = element.textContent;
-        }
-        
-        function calculateScore() {
-            const answeredCount = Object.keys(selectedAnswers).length;
-            if(answeredCount < 3) {
-                alert('请回答全部问题！');
-                return;
-            }
-            
-            // 生成随机结果（实际应用应该是计算实际答案一致率）
-            const scores = [
-                "恭喜！你们是灵魂伴侣，默契度爆表！💯",
-                "默契度很高！真是令人羡慕的一对！🥰",
-                "默契度中等，还需要更多了解彼此哦～",
-                "需要加油呢！多约会聊天增加了解吧！"
-            ];
-            
-            const randomResult = scores[Math.floor(Math.random() * scores.length)];
-            document.getElementById('result').textContent = `测试结果：${randomResult}`;
-            
-            // 添加庆祝效果
-            const hearts = document.createElement('div');
-            hearts.innerHTML = '❤️💖💕';
-            hearts.style.fontSize = '40px';
-            hearts.style.textAlign = 'center';
-            hearts.style.marginTop = '20px';
-            document.getElementById('result').after(hearts);
-        }
-        
-        // 纪念日计算
-        function calculateAnniversary() {
-            const datePicker = document.getElementById('anniversary-date');
-            const startDate = new Date(2023, 5, 14); // 默认开始日期 2023年6月14日
-            
-            if(datePicker.value) {
-                startDate = new Date(datePicker.value);
-            }
-            
-            const today = new Date();
-            const diffTime = Math.abs(today - startDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-            
-            const years = Math.floor(diffDays / 365);
-            const months = Math.floor((diffDays % 365) / 30);
-            const weeks = Math.floor(diffDays / 7);
-            const hours = diffDays * 24;
-            
-            document.getElementById('days').textContent = diffDays;
-            document.getElementById('years').textContent = years;
-            document.getElementById('months').textContent = months;
-            document.getElementById('weeks').textContent = weeks;
-            document.getElementById('hours').textContent = hours;
-        }
-        
-        // 初始化
-        window.onload = function() {
-            // 设置默认开始日期为今天的3个月前
-            const threeMonthsAgo = new Date();
-            threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-            document.getElementById('anniversary-date').valueAsDate = threeMonthsAgo;
-            
-            calculateAnniversary();
-            setInterval(calculateAnniversary, 3600000); // 每小时更新一次
-        };
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
